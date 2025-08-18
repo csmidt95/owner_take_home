@@ -8,10 +8,6 @@ models:
         - unique:
             column_name: "(restaurant_id || '-' || search_text || '-' || _created_at::date )" #If test fails, then there are duplicates / fannout will occur downstream 
       columns:
-        - name: attendease_event_id
-          tests:
-            - unique
-            - not_null
         - name: is_branded_search
           description: >
             Branded searches are when users already know they want to order from a specific restaurant and do a google search to find the restaurant website.  EX- Mcdonalds near me.
