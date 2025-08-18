@@ -1,0 +1,14 @@
+version: 2
+
+models:
+    - name: bronze_gcs_agg_search_data
+      description: < This contains a list of restaurants and JSON data provides information on impressions, 
+                     clicks, ctr, and search rank for all relevant google searches for the restaurant over a 3 day period. The grain of the table
+                     is restaurant_id || created_date 
+      tests:
+        unique: 
+          column_name:    "(restaurant_id || '-' || _created_at::date )" #If test fails, then there are duplicates / fannout will occur downstream 
+      columns:
+        - name: domain
+          description: The Owner domain of the restaurant
+ 

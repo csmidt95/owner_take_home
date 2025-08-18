@@ -1,0 +1,11 @@
+version: 2
+
+models:
+    - name: bronze_app_db_restaurant_cuisines
+      description: This contains a list of restaurants and an array of cuisines associated to the restaurant
+      columns:
+        - name: restaurant_id
+          description: Primary key 
+          tests:
+            - unique
+            - not_null

@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: gsc
+    database: PC_FIVETRAN_DB
+    schema: DATA_OUTPUTS
+    loader: Fivetran
+    tables: 
+      - name: hex_case_gsc_export
