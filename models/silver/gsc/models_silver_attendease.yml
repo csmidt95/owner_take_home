@@ -1,0 +1,37 @@
+version: 2
+
+models:
+    - name: silver_gcs_agg_search_data
+      description: \ Model unpacks the nested JSON and extracts impressions, clicks, ctr, and position into a pre-aggregated table with a grain of Restaurant-Search result - create date
+                     Model contains business logic to identify if search results are Branded or Unbranded 
+      tests:
+        - unique:
+            column_name: "(restaurant_id || '-' || search_text || '-' || _created_at::date )" #If test fails, then there are duplicates / fannout will occur downstream 
+      columns:
+        - name: attendease_event_id
+          tests:
+            - unique
+            - not_null
+        - name: is_branded_search
+          description: >
+            Branded searches are when users already know they want to order from a specific restaurant and do a google search to find the restaurant website.  EX- Mcdonalds near me.
+            Unbranded searches are searches where people may have high intent to order a meal, but they’re not yet searching for a specific restaurant. EX “pizza near me”.
+        - name: j_similarity
+          description: >
+           JAROWINKLER_SIMILARITY is a string function that calculates the similarity between two strings.
+           The function returns a score between 0.0 (no similarity) and 1.0 (an exact match). It works by first finding the number of matching characters between the two strings and then adjusting the 
+           score based on whether the strings match at the beginning
+        - name: edit_distance
+          description: > 
+            It tells you the minimum number of single-character edits (insertions, deletions, or substitutions)
+            needed to change one string into another
+        - name: has_low_edit_distance
+          description: We assume an edit distance of 1 means that the user search text and domain are a identical. This qualifies the search text to count as Branded
+        - name: has_high_j_similarity
+          description: We assume a jarowinkler similarity > 95 means that the user search text and domain are a identical. This qualifies the search text to count as Branded
+        - name: search_text_no_spaces
+          description: This takes raw users texts & removes spaces, apostrophes, and other characters to make word matching easier
+        - name: second_level_domain
+          description: This drop the .com from domains for easier word matching
+        - name: is_contained
+          description: Uses the CONTAINED function to see if the second_level_domain is contained by the search_text_no_spaces. If true, then we assume the search is Branded 
