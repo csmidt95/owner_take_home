@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: silver_gcs_agg_search_data
+    - name: silver_fct_restaurant_search_metrics
       description: \ Model unpacks the nested JSON and extracts impressions, clicks, ctr, and position into a pre-aggregated table with a grain of Restaurant-Search result - create date
                      Model contains business logic to identify if search results are Branded or Unbranded 
       tests:
@@ -31,3 +31,10 @@ models:
           description: This drop the .com from domains for easier word matching
         - name: is_contained
           description: Uses the CONTAINED function to see if the second_level_domain is contained by the search_text_no_spaces. If true, then we assume the search is Branded 
+
+
+    - name: silver_dim_restaurant_cuisines
+      description: \ Model explodes the array of cuisines and locations, turning this into a many to many relationship between restaurants and cuisine types
+      tests:
+        - unique:
+            column_name: "(restaurant_id || '-' || cuisine  )" #If test fails, then there are duplicates / fannout will occur downstream 

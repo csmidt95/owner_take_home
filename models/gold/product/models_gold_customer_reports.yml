@@ -1,9 +1,17 @@
 version: 2
 
 models:    
-    - name: gold_gcs_agg_search_data
+    - name: gold_product_restaurant_search_metrics
       description: < Gold model (materialized as table) of unpacked impression, click, and search position data containing Branded/Unbranded designation
+                     Model is used to answer business questions at the Restaurant level
       tests:
         - unique:
             column_name: "(restaurant_id || '-' || search_text || '-' || _created_at::date )" #If test fails, then there are duplicates / fannout will occur downstream 
+
+    - name: gold_product_cuisine_search_metrics
+      description: < Gold model (materialized as table) of unpacked impression, click, and search position data containing Branded/Unbranded designation
+                     Model is used to answer business questions at the Cuisine level
+      tests:
+        - unique:
+            column_name: "(restaurant_id || '-' || search_text || '-' || _created_at::date || '-' || cuisine)" #If test fails, then there are duplicates / fannout will occur downstream 
 

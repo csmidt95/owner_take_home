@@ -15,7 +15,7 @@ SELECT
     replace(replace(replace(search_text, ' ', ''), '’', ''), '\'', '') as search_text_no_spaces,
     t1.value:position::NUMBER(5,2) AS position
 FROM
-    PC_FIVETRAN_DB.DATA_OUTPUTS.HEX_CASE_GSC_EXPORT,
+    {{ ref('bronze_gcs_restaurant_search_metrics')}},
     LATERAL FLATTEN(INPUT => PARSE_JSON(data):rows) t1,
     LATERAL FLATTEN(INPUT => t1.value:keys) t2
 

@@ -1,7 +1,0 @@
-models:
-    - name: silver_dim_restaurant_cuisines
-      description: \ Model flattens the array of cuisines and extracts impressions, clicks, ctr, and position into a pre-aggregated table with a grain of Restaurant-Search result - create date
-                     Model contains business logic to identify if search results are Branded or Unbranded 
-      tests:
-        - unique:
-            column_name: "(restaurant_id || '-' || cuisine  )" #If test fails, then there are duplicates / fannout will occur downstream 
