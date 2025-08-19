@@ -7,8 +7,7 @@ Note: part of requirements specified '% of searches', I am using # of Impression
 */
 
 select 
-    restaurant_id,
-    domain,
+    cuisine,
 
     --Branded Metrics
     sum(iff(is_branded_search, impressions, null)) as branded_impressions,
@@ -32,5 +31,5 @@ select
     branded_impressions/total_impressions as perc_branded_impressions,
     branded_clicks/total_clicks as perc_branded_clicks
 from {{ ref('gold_product_cuisine_search_metrics')}}
-group by 1,2
-order by 1,2
+group by 1
+order by 1
