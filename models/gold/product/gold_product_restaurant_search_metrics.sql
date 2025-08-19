@@ -4,4 +4,4 @@
 
 select 
     *
-from {{ ref('silver_restaurant_search_metrics')}}
+from {{ ref('silver_fct_restaurant_search_metrics')}}

@@ -10,8 +10,6 @@ profile: 'dbt-snowflake'
 # in the "models/" directory. You probably won't need to change these!
 model-paths: ["models"]
 analysis-paths: ["analysis"]
-asset-paths: ["assets"]
-snapshot-paths: ["snapshots"]
 
 target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
@@ -22,9 +20,6 @@ snapshots:
     +target_schema: snapshots
 
 models:
-    materialized: view
-    incremental_strategy: "merge"
-
     dbt_core:
         bronze:
             +docs:
@@ -39,10 +34,8 @@ models:
             +docs:
                 node_color: "silver"
             +tags: [silver]
-            dim:
-                +schema: silver_dim
-            gsc:
-                +schema: silver_gsc
+            product:
+                +schema: silver_product
         gold:
             +docs:
                 node_color: "gold"
