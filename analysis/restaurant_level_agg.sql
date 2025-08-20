@@ -13,14 +13,14 @@ select
     sum(iff(is_branded_search, impressions, null)) as branded_impressions,
     sum(iff(is_branded_search, clicks, null)) as branded_clicks,
     branded_clicks/branded_impressions as branded_ctr,
-    sum(iff(is_branded_search, impressions * position, null)) / sum(iff(is_branded_search, position, null)) as branded_position,
+    sum(iff(is_branded_search, impressions * position, null)) / sum(iff(is_branded_search, impressions, null)) as branded_position,
    
 
     --Unbranded Metrics
     sum(iff(not is_branded_search, impressions, null)) as unbranded_impressions,
     sum(iff(not is_branded_search, clicks, null)) as unbranded_clicks,
     unbranded_clicks/unbranded_impressions as unbranded_ctr,
-    sum(iff(not is_branded_search, impressions * position, null)) / sum(iff(not is_branded_search, position, null)) as unbranded_position,
+    sum(iff(not is_branded_search, impressions * position, null)) / sum(iff(not is_branded_search, impressions, null)) as unbranded_position,
 
     --Totals
     sum(impressions) as total_impressions,
